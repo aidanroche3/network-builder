@@ -1,0 +1,26 @@
+{
+  "name": "network-builder",
+  "version": "1.0.0",
+  "description": "project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aidanroche3/network-builder.git"
+  },
+  "author": "me",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aidanroche3/network-builder/issues"
+  },
+  "homepage": "https://github.com/aidanroche3/network-builder#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "nodemon": "^3.0.1"
+  }
+}
