@@ -4,7 +4,7 @@ import User from "../models/user.js";
 class UserAccessor {
   static async getAllUsers() {
     try {
-      await Connection.open("users");
+      await Connection.open("Network-Builder");
       const users = [];
       for await (const doc of User.find()) {
         users.push(doc);
