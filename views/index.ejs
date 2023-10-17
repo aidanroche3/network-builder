@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/index.css" rel="stylesheet" type="text/css" />
     <title>Network Builder</title>
   </head>
   <body>
-    <h1 id="header">Welcome to the Network Builder</h1>
-    <p id="description">Meet friends online with similar interests!</p>
+    <h1 class="header">Welcome to Network Builder</h1>
+    <p class="description">Meet friends online with similar interests!</p>
     <hr class="hr" />
-    <div class="profile-container">
+    <div class="profile-container page-content">
       <% users.forEach((user) => { %>
       <div class="profile-block">
         <form action="/follow" method="POST">
@@ -18,7 +19,7 @@
             <h3><%= user.username %></h3>
             <p>
               Followers: <%= user.followers.length %>&emsp;Following: <%=
-              user.following.length %><% user.following.length %>
+              user.following.length %>
             </p>
             <p><%= user.bio %></p>
             <hr class="hr" />
@@ -30,10 +31,18 @@
             name="follow"
             value="<%= user.username %>"
           />
-          <button class="btn" type="submit">Follow <% user.username %></button>
+          <button class="btn" type="submit">Follow <%= user.username %></button>
         </form>
       </div>
       <% }); %>
+    </div>
+    <div class="page-buttons">
+      <a href="/login-page">
+        <input type="button" class="btn" value="Login" />
+      </a>
+      <a href="/sign-up">
+        <input type="button" class="btn" value="Sign Up" />
+      </a>
     </div>
   </body>
 </html>
