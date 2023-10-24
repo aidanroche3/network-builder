@@ -17,6 +17,9 @@ router.route("/css/style.css").get((req, res) => {
 
 router.route("/login-page").get(UserController.getLoginPage);
 
-router.route("/sign-up").get(UserController.getSignUpPage);
+router
+  .route("/sign-up")
+  .get(UserController.getSignUpPage)
+  .post(UserController.postSignUp);
 
 export default router;
