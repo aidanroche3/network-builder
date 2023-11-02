@@ -30,4 +30,10 @@ router
   .route("/profile")
   .get(Auth.authorize, UserController.getProfile, errorHandler);
 
+router.route("/logout").get(UserController.getLogout);
+
+router
+  .route("/follow")
+  .post(Auth.authorize, UserController.followUser, errorHandler);
+
 export default router;

@@ -37,12 +37,18 @@
       <% }); %>
     </div>
     <div class="page-buttons">
+      <% if(req.cookies.token){ %>
+      <a href="/login-page">
+        <input type="button" class="btn" value="Profile" />
+      </a>
+      <% } else{ %>
       <a href="/login-page">
         <input type="button" class="btn" value="Login" />
       </a>
       <a href="/sign-up">
         <input type="button" class="btn" value="Sign Up" />
       </a>
+      <% } %>
     </div>
   </body>
 </html>

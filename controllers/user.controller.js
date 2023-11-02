@@ -1,26 +1,35 @@
 import UserAccessor from "../db_accessor/user.accessor.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/user.js";
 import Auth from "../auth/authorization.js";
 
 class UserController {
   static async getAllUsers(req, res) {
     const users = await UserAccessor.getAllUsers();
-    res.render("index", { users: users });
+    res.render("index", { users: users, req: req });
   }
 
   static getLoginPage(req, res) {
-    res.render("login_page", { error: req.cookies.error });
+    if (req.cookies.token) {
+      res.redirect("/profile");
+    } else {
+      res.render("login_page", { error: req.cookies.error });
+    }
   }
 
   static getSignUpPage(req, res) {
-    res.render("sign_up");
+    if (req.cookies.token) {
+      res.redirect("/profile");
+    } else {
+      res.render("sign_up");
+    }
   }
 
-  static getProfile(req, res, next) {
+  static async getProfile(req, res, next) {
     if (!req.error) {
-      const user = Auth.getUserInfo(req);
+      var user = Auth.getUserInfo(req);
+      const username = user.username;
+      var user = await UserAccessor.getUser(username);
       res.render("profile", {
         name: user.username,
         email: user.email,
@@ -31,6 +40,11 @@ class UserController {
     } else {
       return next();
     }
+  }
+
+  static getLogout(req, res) {
+    res.clearCookie("token");
+    res.redirect("/");
   }
 
   static async postSignUp(req, res, next) {
@@ -77,6 +91,23 @@ class UserController {
     } catch (e) {
       req.error = 400;
       next();
+    }
+  }
+
+  static async followUser(req, res, next) {
+    if (!req.error) {
+      const toFollow = req.body.follow;
+      var user = Auth.getUserInfo(req);
+      const username = user.username;
+      user = await UserAccessor.getUser(username);
+      const following = user.following;
+
+      if (!following.includes(toFollow) && toFollow != username) {
+        await UserAccessor.addFollower(username, toFollow);
+      }
+      res.redirect("/");
+    } else {
+      return next();
     }
   }
 }
