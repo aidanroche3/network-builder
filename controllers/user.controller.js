@@ -115,20 +115,9 @@ class UserController {
     try {
       if (!req.error) {
         const user = req.body.delete;
-
-        //------generate new following / followers
-
         const updatedUsers = await UserAccessor.removeFollowerFromAll(user);
-
-        //------update records
-
-        console.log(updatedUsers);
         await UserAccessor.updateAllUsers(updatedUsers);
-
-        //------remove user
-
         await UserAccessor.removeUser(user);
-
         res.redirect("/logout");
       } else {
         next();
