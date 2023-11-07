@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <h1 class="header">Delete Account</h1>
+    <hr class="hr" />
+    <div class="page-content">
+      <h2>Are you sure you want to delete your account?</h2>
+      <h3><b>This action is irreversible.</b></h3>
+      <div class="beside">
+        <form action="/delete" method="POST">
+          <label for="delete">
+            <button class="btn">Yes, delete my account</button>
+          </label>
+          <input type="hidden" id="delete" name="delete" value="<%= name %>" />
+        </form>
+        <a href="/">
+          <button class="btn">No, take me back</button>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

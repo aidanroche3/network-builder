@@ -2,6 +2,7 @@ import UserAccessor from "../db_accessor/user.accessor.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Auth from "../auth/authorization.js";
+import User from "../models/user.js";
 
 class UserController {
   static async getAllUsers(req, res) {
@@ -25,6 +26,17 @@ class UserController {
     }
   }
 
+  static async getConfirmationPage(req, res) {
+    if (!req.error) {
+      const currentUser = Auth.getUserInfo(req);
+      res.render("confirmation", {
+        name: currentUser.username,
+      });
+    } else {
+      return next();
+    }
+  }
+
   static async getProfile(req, res, next) {
     if (!req.error) {
       var user = Auth.getUserInfo(req);
@@ -43,8 +55,13 @@ class UserController {
   }
 
   static getLogout(req, res) {
-    res.clearCookie("token");
-    res.redirect("/");
+    try {
+      res.clearCookie("token");
+      res.redirect("/");
+    } catch (e) {
+      req.error = 400;
+      next();
+    }
   }
 
   static async postSignUp(req, res, next) {
@@ -87,6 +104,34 @@ class UserController {
         }
       } else {
         res.redirect("/profile");
+      }
+    } catch (e) {
+      req.error = 400;
+      next();
+    }
+  }
+
+  static async deleteAccount(req, res, next) {
+    try {
+      if (!req.error) {
+        const user = req.body.delete;
+
+        //------generate new following / followers
+
+        const updatedUsers = await UserAccessor.removeFollowerFromAll(user);
+
+        //------update records
+
+        console.log(updatedUsers);
+        await UserAccessor.updateAllUsers(updatedUsers);
+
+        //------remove user
+
+        await UserAccessor.removeUser(user);
+
+        res.redirect("/logout");
+      } else {
+        next();
       }
     } catch (e) {
       req.error = 400;

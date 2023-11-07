@@ -33,6 +33,14 @@ router
 router.route("/logout").get(UserController.getLogout);
 
 router
+  .route("/confirmation")
+  .get(Auth.authorize, UserController.getConfirmationPage, errorHandler);
+
+router
+  .route("/delete")
+  .post(Auth.authorize, UserController.deleteAccount, errorHandler);
+
+router
   .route("/follow")
   .post(Auth.authorize, UserController.followUser, errorHandler);
 
